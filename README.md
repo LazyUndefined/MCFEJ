@@ -1,14 +1,14 @@
 # MCFEJ - MCFunction Editor for Java edition
 ---
 ## LICENSE
-    - MCFEJ is distributed under BSD-2-Clause.
-     Please see LICENSE or <https://opensource.org/licenses/BSD-2-Clause> .
+    - MCFEJ is distributed under Apache-2.0.
+     Please see LICENSE or <https://www.apache.org/licenses/LICENSE-2.0.html> .
     
 ## Introduction
-    - MCFEJ は GUI の mcfunction エディタです。
-    - 動作には Common Lisp 処理系 (SBCL を推奨)、Quicklisp 、Tcl/Tk が必要です。
+    - MCFEJ は GUI の Minecraft コマンドエディタです。
+    - 動作には Cargo, Tcl/Tk が必要です。
     - 開発は超スローペースになりますが、どうぞよろしくお願いします。
 ## Acknowledgement
     MCFEJ depends on these softwares. Please see COPYRIGHT-NOTICE.
-    - Ltk <https://www.peter-herth.de/ltk>
-    - CL-JSON <https://github.com/hankhero/cl-json>
+    - rstk <https://crates.io/crates/rstk>
+    - serde <https://crates.io/crates/serde>
