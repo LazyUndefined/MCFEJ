@@ -1,0 +1,1 @@
+/give @p wooden_sword{"display":{"Name":"{\"text\": \"Shinai\"}","Lore":["{\"text\": \"a kind of Japanese traditional swords\"}"]}}
