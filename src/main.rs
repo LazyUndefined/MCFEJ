@@ -19,15 +19,61 @@ extern crate serde;
 extern crate serde_json;
 use rstk::*;
 use serde::{Deserialize, Serialize};
-
+// vars
+static ENCH_IDS: [&str; 38] = [
+    "sharpness",
+    "smite",
+    "bane_of_arthropods",
+    "knockback",
+    "fire_aspect",
+    "sweeping_edge",
+    "looting",
+    "impaling",
+    "loyalty",
+    "riptide",
+    "channeling",
+    "power",
+    "punch",
+    "flame",
+    "infinity",
+    "multishot",
+    "piercing",
+    "quick_charge",
+    "protection",
+    "fire_protection",
+    "blast_protection",
+    "projectile_protection",
+    "thorsns",
+    "respiration",
+    "aqua_affinity",
+    "feather_falling",
+    "depth_strider",
+    "frost_walker",
+    "soul_speed",
+    "efficiency",
+    "silk_touch",
+    "fortune",
+    "luck_of_the_sea",
+    "lure",
+    "unbreaking",
+    "mending",
+    "vanishing_curse",
+    "binding_curse",
+];
 #[derive(Serialize, Deserialize, Debug)]
 struct Display {
     Name: String,
     Lore: Vec<String>,
 }
 #[derive(Serialize, Deserialize, Debug)]
+struct Enchantment {
+    id: String,
+    lvl: u32,
+}
+#[derive(Serialize, Deserialize, Debug)]
 struct NBT {
     display: Display,
+    Enchantments: Vec<Enchantment>,
 }
 
 fn mctext_from(text: &String) -> String {
@@ -64,21 +110,58 @@ fn main() {
     let entry_lore = rstk::make_entry(&root);
     entry_lore.width(50);
     entry_lore.grid().row(3).column(1).layout();
+    // enchantments
+    let mut widgets_ench: Vec<(&str, rstk::TkCheckButton, rstk::TkEntry)> = Vec::new();
+    // frame
+    let frame_ench = rstk::make_label_frame(&root);
+    frame_ench.text("Enchantments: ");
+    // init widgets_ench
+    let mut i: u32 = 0;
+    for ench_id in ENCH_IDS {
+        let frame = rstk::make_frame(&frame_ench);
+        let cbutton_id = rstk::make_check_button(&frame);
+        cbutton_id.text(ench_id);
+        cbutton_id.grid().row(0).column(0).layout();
+        let entry_lvl = rstk::make_entry(&frame);
+        entry_lvl.grid().row(0).column(1).layout();
+        frame
+            .grid()
+            .row((i / 2).into())
+            .column((i % 2).into())
+            .layout();
+        widgets_ench.push((ench_id, cbutton_id, entry_lvl));
+        i += 1;
+    }
+    frame_ench.grid().row(5).column(0).column_span(2).layout();
     // generated command
     let label_generated_command = rstk::make_label(&root);
     label_generated_command.background("aqua");
     label_generated_command.text("(generated command is displayed here)");
-    label_generated_command.grid().row(4).column(1).layout();
+    label_generated_command.grid().row(6).column(1).layout();
     // generate button
     let button_gen = rstk::make_button(&root);
     button_gen.text("<Generate command>");
-    button_gen.grid().row(4).column(0).layout();
+    button_gen.grid().row(6).column(0).layout();
     button_gen.command(move || {
         let disp = Display {
             Name: mctext_from(&entry_name.value_get()),
             Lore: [mctext_from(&entry_lore.value_get())].to_vec(),
         };
-        let nbt = NBT { display: disp };
+        let enabled_enchs: Vec<_> = widgets_ench
+            .iter()
+            .filter(|&each| each.1.is_selected())
+            .collect();
+        let enchs = enabled_enchs
+            .iter()
+            .map(|&each| Enchantment {
+                id: each.0.to_string(),
+                lvl: each.2.value_get().parse().unwrap(),
+            })
+            .collect();
+        let nbt = NBT {
+            display: disp,
+            Enchantments: enchs,
+        };
         label_generated_command.text(
             &(format!(
                 "/give @p {}{}",
