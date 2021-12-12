@@ -8,6 +8,8 @@
     - MCFEJ は GUI の Minecraft コマンドエディタです。
     - 動作には Cargo, Tcl/Tk が必要です。
     - 開発は超スローペースになりますが、どうぞよろしくお願いします。
+# What you can do
+    - /give コマンド (Name, Lore, Enchantments, CustomPotionEffects)
 # Build from source
     - まずコマンドラインに cargo --version と入力し、Cargo がインストールされていることを確認してください。
       バージョンが出力されたらインストールされています。

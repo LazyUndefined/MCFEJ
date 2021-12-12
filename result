@@ -1,0 +1,1 @@
+/give @p potion{"display":{"Name":"{\"text\": \"昇天のポーション\"}","Lore":["{\"text\": \"飲むと10秒の間昇天し、その後昇天する。\"}"]},"Enchantments":[],"CustomPotionEffects":[{"Id":14,"Amplifier":1,"Duration":200},{"Id":18,"Amplifier":1,"Duration":200},{"Id":25,"Amplifier":10,"Duration":200}]}
